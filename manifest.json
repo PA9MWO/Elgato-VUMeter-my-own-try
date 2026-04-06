@@ -1,0 +1,24 @@
+{
+  "Author": "YourName",
+  "CodePath": "run.bat",
+  "Description": "Stereo VU Meter for Stream Deck XL",
+  "Name": "Python VU Meter",
+  "Icon": "imgs/plugin_icon",
+  "Category": "Audio Tools",
+  "CategoryIcon": "imgs/category_icon",
+  "Version": "1.0",
+  "SDKVersion": 2,
+  "Software": { "MinimumVersion": "6.0" },
+  "OS": [{ "Platform": "windows", "MinimumVersion": "10" }],
+  "UUID": "com.yourname.vumeter",
+  "Actions": [
+    {
+      "Name": "VU Meter Segment",
+      "UUID": "com.yourname.vumeter.segment",
+      "Icon": "imgs/action_icon",
+      "PropertyInspectorPath": "pi/index.html",
+      "States": [{ "Image": "imgs/action_icon" }],
+      "Tooltip": "A single segment of the VU Meter"
+    }
+  ]
+}

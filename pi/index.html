@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>VU Meter Settings</title>
+    <link rel="stylesheet" href="https://sdpi-components.dev/releases/v3/sdpi.css">
+</head>
+<body>
+    <div class="sdpi-wrapper">
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">Segment Index</div>
+            <input class="sdpi-item-value" type="number" id="segment_index" 
+                   value="0" min="0" max="7" oninput="saveSettings(event.target.value)">
+        </div>
+    </div>
+
+    <script>
+        var uuid, actionInfo, settings;
+
+        // The Stream Deck app calls this automatically
+        window.connectElgatoStreamDeckSocket = (inPort, inUUID, inRegisterEvent, inInfo, inActionInfo) => {
+            uuid = inUUID;
+            actionInfo = JSON.parse(inActionInfo);
+            settings = actionInfo.payload.settings;
+
+            // Set initial value in the box
+            if (settings.segment_index !== undefined) {
+                document.getElementById('segment_index').value = settings.segment_index;
+            }
+
+            const websocket = new WebSocket('ws://127.0.0.1:' + inPort);
+            websocket.onopen = () => {
+                const json = { event: inRegisterEvent, uuid: inUUID };
+                websocket.send(JSON.stringify(json));
+            };
+
+            window.saveSettings = (val) => {
+                const newSettings = { segment_index: parseInt(val) };
+                const json = {
+                    event: "setSettings",
+                    context: uuid,
+                    payload: newSettings
+                };
+                websocket.send(JSON.stringify(json));
+            };
+        };
+    </script>
+</body>
+</html>
